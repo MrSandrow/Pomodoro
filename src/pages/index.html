@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomodoro Timer</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="content">
+      <div class="logo">
+        <span class="logo__text">pomodoro</span>
+      </div>
+      <div class="menu">
+        <div class="menu__button active pointer">
+          <span class="menu__text">pomodoro</span>
+        </div>
+        <div class="menu__button pointer">
+          <span class="menu__text">short break</span>
+        </div>
+        <div class="menu__button pointer">
+          <span class="menu__text">long break</span>
+        </div>
+        <div class="menu__button--switch pointer">
+          <span class="menu__text">settings</span>
+        </div>
+      </div>
+      <div class="timer">
+        <div class="timer__circle">
+          <svg class="timer__progress" viewBox='0 0 512 512'>
+            <path class="timer__path" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
+          </svg>
+          <div class="timer__background pointer">
+            <h1 class="timer__time">17:59</h1>
+            <h3 class="timer__status">PAUSE</h3>
+          </div>
+        </div>
+      </div>
+      <div class="switch">
+        <div class="switch__button pointer"></div>
+      </div>
+    </div>
+    <div class="modal hidden">
+      <div class="modal__container">
+        <div class="modal__background--light">
+          <div class="modal__header">
+            <span class="modal__title--dark">Settings</span>
+          </div>
+          <hr class="modal__separator--large">
+          <div class="modal__main">
+            <span class="modal__subtitle--dark">TIME (MINUTES)</span>
+            <form class="modal__timers">
+              <label for="pomodoro">pomodoro</label>
+              <input type="number" name="pomodoro" value="25" disabled>
+              <label for="shortbreak">short break</label>
+              <input type="number" name="shortbreak" value="5">
+              <label for="longbreak">long break</label>
+              <input type="number" name="longbreak" value="15">
+            </form>
+          </div>
+          <hr class="modal__separator">
+          <div class="modal__options">
+            <div class="modal__menu">
+              <span class="modal__subtitle--dark">FONT</span>
+              <div class="modal__fonts">
+                <button class="modal__button--poppins pointer active">Aa</button>
+                <button class="modal__button--museo pointer">Aa</button>
+                <button class="modal__button--merriweather pointer">Aa</button>
+              </div>
+            </div>
+            <hr class="modal__separator">
+            <div class="modal__menu">
+              <span class="modal__subtitle--dark">COLOR</span>
+              <div class="modal__colors">
+                <button class="modal__button--red pointer active"></button>
+                <button class="modal__button--blue pointer"></button>
+                <button class="modal__button--purple pointer"></button>
+              </div>
+            </div>
+          </div>
+          <div class="modal__footer">
+            <button class="modal__control--no pointer">Cancel</button>
+            <button class="modal__control--yes pointer">Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal hidden">
+      <div class="modal__container--small">
+        <div class="modal__background--dark">
+          <div class="modal__main--center">
+            <span class="modal__title--light">This timer is still running</span>
+            <span class="modal__subtitle--light">Are you sure you want to switch ?</span>
+          </div>
+          <div class="modal__footer">
+            <button class="modal__control--no pointer">No</button>
+            <button class="modal__control--yes pointer">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
