@@ -498,8 +498,7 @@ body {
   }
 
   .content {
-    display: flex;
-    justify-content: space-evenly;
+    grid-auto-flow: column;
   }
 
   .logo {
