@@ -1,5 +1,4 @@
-import '../pages/index.html';
-import '../styles/index.scss';
+import '../../pages/index.html';
 
 const path = document.querySelector('path');
 console.log(path.getTotalLength());

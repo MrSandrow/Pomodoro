@@ -3,8 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './src/js/index.js',
-  output: { filename: 'app.js', path: path.resolve('public') },
+  entry: { app: './src/js/entries/app.js', index: './src/js/entries/index.js' },
+  output: { filename: '[name].[contenthash].js', path: path.resolve('public') },
 
   module: {
     rules: [
@@ -37,8 +37,8 @@ module.exports = {
   },
 
   plugins: [
-    new MiniCssExtractPlugin({ filename: 'style.css' }),
-    new HtmlWebpackPlugin({ template: path.resolve('src', 'pages', 'index.html'), favicon: path.resolve('src', 'images', 'favicon.png') }),
+    new MiniCssExtractPlugin({ filename: 'style.[contenthash].css' }),
+    new HtmlWebpackPlugin({ template: path.resolve('src', 'pages', 'index.html'), chunks: ['app', 'index'] }),
   ],
 
   devServer: {
