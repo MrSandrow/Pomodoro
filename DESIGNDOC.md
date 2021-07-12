@@ -1,34 +1,71 @@
 ## Event Listeners
 
-- Switch timers using the menu
-- Start / Pause the timer when clicking on it
+- Menu (separate timers from the settings button)
+- Timer
+- Settings (2 buttons)
+- Change Color / Font (settings)
+- Apply / Decline Modal
 
-- Open the settings when clicking on the settings button
-- Get the timers durations when applying the settings
-- Set Font & Color when clicking on the appropriate buttons
-- Apply / Close a modal when clicking on the appropriate buttons
+## Behaviors
 
-## Business Logic
+TimerMenu(parentDiv, eventTarget, isTimmerRunning, warning.display)
+  handleSwitch (switchTimer or warning.display) (do nothing if eventtarget is already "active")
+  switchLayout(parentDiv, eventTarget)
+  switchState()
+  switchTimer() switchlayout & switchState
 
-- Create a countdown
+Modal(dom element)
+  displayModal(dom element)
+  hideModal(dom element)
+
+WarningModal(func) extends Modal
+  cancel() this.hideModal
+  apply(func) func() & this.hideModal
+
+SettingsModal extends Modal
+  validateFormInput(dom element, validationFunction) (if eventtarget is input => eventtarget.value = validationFunction(eventtarget.value))
+  disableFormInput(dom element)
+  switchLayout(parentDiv, eventTarget)
+  cancel() state/settings.forEach(restoreCurrentSetting()) & this.hideModal
+  apply() state/settings.forEach(applyNewSetting()) & this.hideModal
+
+Timer(timerDurations)
+  initialize() (state created -> reset remainingTime -> render(duration, progressbar, start))
+  handler() (this\[currentState\]())
+
+  _created() (state running -> (date.nom + duration) - date.now -> disableFormInput(input) -> render x60)
+  _running() (state paused -> save remainingTime -> render)
+  _paused() (state running -> (date.now + remainingTime) - date.now -> render x60 -> logic when finished)
+  _finished() created()
+
+  _renderProgressBar(dom element, time, duration)
+  _renderStatus(dom element, message)
+  _renderTime(dom element, time)
+  _render(dom element, message, duration)
 
 ## State
+  
+Settings
+  timerDurations
+    domElement
+    currentSettingObject
+    restoreCurrentSetting()
+    applyNewSetting()
+    validationFunction(input) (integer between 0 and 960)
 
-- Currently selected timer
-- Is the current timer running ?
-- Is the current timer finished ?
+  color
+    domElement
+    currentSettingObject
+    restoreCurrentSetting()
+    applyNewSetting()
 
-- Each timer's duration
-- Font & Color used in the app
+  font
+    domElement
+    currentSettingObject
+    restoreCurrentSetting()
+    applyNewSetting()
 
-- Which timer does the user want to switch to ? (when the warning modal is displayed)
-- How long until the timer finishes ? (when the timer is paused)
-
-## View
-
-- Display the remaining time (every second until the timer is finished)
-- Animate the progress bar (every second until the timer is finished)
-- Display the timer state (start / pause / restart)
-
-- Display a warning if the user tries to switch timers while a timer is running
-- Disallow users to change the duration of a timer when it is running
+Timer
+  currentMode
+  currentState
+  remainingTime
