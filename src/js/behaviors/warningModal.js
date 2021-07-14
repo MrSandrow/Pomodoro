@@ -1,10 +1,11 @@
 export default class WarningModal {
-  constructor(domElement, functionToRun) {
+  constructor(domElement) {
     this.domElement = domElement;
-    this.functionToRun = functionToRun;
   }
 
-  initialize() {
+  initialize(functionToRun) {
+    this.functionToRun = functionToRun;
+
     const cancelButton = this.domElement.querySelector('.modal__control--cancel');
     const applyButton = this.domElement.querySelector('.modal__control--apply');
 

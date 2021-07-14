@@ -1,5 +1,5 @@
 export default {
-  currentMode: 'f',
-  currentState: 'f',
-  remainingTime: 'f',
+  currentMode: 'pomodoro',
+  currentState: null,
+  remainingTime: null,
 };
