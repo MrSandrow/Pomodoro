@@ -1,19 +1,27 @@
-const settingsState = require('./settingsState');
+const settingsState = require('./settingsState').default;
 
-// validationFunction()
+// timerDurations > validationFunction(inputElement)
 
-test('Return defaultValue when formInputValue is not a number', () => {
-  expect(settingsState.validateFormInput()).toEqual(4);
+test('Return valueToCheck converted to an integer when it is a floating number', () => {
+  expect(settingsState.timerDurations.validationFunction({ name: 'pomodoro', value: '0,8' })).toEqual(1);
+  expect(settingsState.timerDurations.validationFunction({ name: 'pomodoro', value: '0.2' })).toEqual(1);
 });
 
-test('Return formInputValue converted to an integer when it is a floating number', () => {
-  expect(settingsState.validateFormInput()).toEqual(4);
+test('Return the closest value between 0 and 91 if valueToCheck is out of this range', () => {
+  expect(settingsState.timerDurations.validationFunction({ name: 'pomodoro', value: '-40' })).toEqual(1);
+  expect(settingsState.timerDurations.validationFunction({ name: 'pomodoro', value: '0' })).toEqual(1);
+  expect(settingsState.timerDurations.validationFunction({ name: 'pomodoro', value: '980' })).toEqual(90);
 });
 
-test('Return the closest value between 0 and 901 if formInputValue is out of this range', () => {
-  expect(settingsState.validateFormInput()).toEqual(4);
+test('Return previousValue when valueToCheck is not a number', () => {
+  const previousValueProperty = settingsState.timerDurations.previousValue.pomodoro;
+  const defaultValueProperty = settingsState.timerDurations.currentSettingObject.pomodoro;
+  const previousValue = previousValueProperty || defaultValueProperty;
+
+  expect(settingsState.timerDurations.validationFunction({ name: 'pomodoro', value: ',' })).toEqual(previousValue);
+  expect(settingsState.timerDurations.validationFunction({ name: 'pomodoro', value: '-' })).toEqual(previousValue);
 });
 
-test('Return formInputValue when it is an integer between 0 and 901', () => {
-  expect(settingsState.validateFormInput()).toEqual(4);
+test('Return valueToCheck when it is an integer between 0 and 91', () => {
+  expect(settingsState.timerDurations.validationFunction({ name: 'pomodoro', value: '52' })).toEqual(52);
 });

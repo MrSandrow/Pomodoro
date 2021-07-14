@@ -7,6 +7,6 @@ module.exports = {
     expect: 'readonly',
   },
   rules: {
-    'import/no-extraneous-dependencies': ['off'],
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
   },
 };

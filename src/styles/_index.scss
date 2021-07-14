@@ -4,8 +4,29 @@ html {
   font-family: var(--font), sans-serif;
   font-size: calc(100vw / 31);
 
-  --color: #f87070;
-  --font: "Poppins";
+  &[data-font="poppins"] {
+    --font: "Poppins";
+  }
+
+  &[data-font="museo"] {
+    --font: "Museo";
+  }
+
+  &[data-font="merriweather"] {
+    --font: "Merriweather";
+  }
+
+  &[data-color="red"] {
+    --color: #f87070;
+  }
+
+  &[data-color="blue"] {
+    --color: #70f1f2;
+  }
+
+  &[data-color="purple"] {
+    --color: #d681f6;
+  }
 }
 
 body {
@@ -275,7 +296,7 @@ body {
       font-weight: 700;
       padding: 0.9rem 1.25rem;
 
-      &:disabled {
+      &:read-only {
         color: #adadb4;
         cursor: not-allowed;
       }

@@ -1,43 +1,25 @@
 export default class Timer {
   constructor(domElement) {
-
+    this.domElement = domElement;
   }
 
-  initialize() {
+  initialize() {}
 
-  }
+  handler() {}
 
-  handler() {
+  created() {}
 
-  }
+  running() {}
 
-  created() {
+  paused() {}
 
-  }
+  finished() {}
 
-  running() {
+  renderTime() {}
 
-  }
+  renderProgressBar() {}
 
-  paused() {
-
-  }
-
-  finished() {
-
-  }
-
-  renderTime() {
-
-  }
-
-  renderProgressBar() {
-
-  }
-
-  renderStatus() {
-
-  }
+  renderStatus() {}
 
   render() {
     this.renderTime();

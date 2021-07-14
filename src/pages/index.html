@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-font="poppins" data-color="red">
 
 <head>
   <meta charset="UTF-8">
@@ -57,11 +57,11 @@
             <span class="modal__subtitle--dark">TIME (MINUTES)</span>
             <form class="modal__timers">
               <label for="pomodoro">pomodoro</label>
-              <input type="number" name="pomodoro" value="25" disabled>
+              <input type="number" name="pomodoro" value="25">
               <label for="shortbreak">short break</label>
-              <input type="number" name="shortbreak" value="5">
+              <input type="number" name="shortBreak" value="5">
               <label for="longbreak">long break</label>
-              <input type="number" name="longbreak" value="15">
+              <input type="number" name="longBreak" value="15">
             </form>
           </div>
           <hr class="modal__separator">
@@ -69,18 +69,18 @@
             <div class="modal__menu">
               <span class="modal__subtitle--dark">FONT</span>
               <div class="modal__fonts">
-                <button class="modal__button--poppins pointer active">Aa</button>
-                <button class="modal__button--museo pointer">Aa</button>
-                <button class="modal__button--merriweather pointer">Aa</button>
+                <button class="modal__button--poppins pointer active" data-setting="poppins">Aa</button>
+                <button class="modal__button--museo pointer" data-setting="museo">Aa</button>
+                <button class="modal__button--merriweather pointer" data-setting="merriweather">Aa</button>
               </div>
             </div>
             <hr class="modal__separator">
             <div class="modal__menu">
               <span class="modal__subtitle--dark">COLOR</span>
               <div class="modal__colors">
-                <button class="modal__button--red pointer active"></button>
-                <button class="modal__button--blue pointer"></button>
-                <button class="modal__button--purple pointer"></button>
+                <button class="modal__button--red pointer active" data-setting="red"></button>
+                <button class="modal__button--blue pointer" data-setting="blue"></button>
+                <button class="modal__button--purple pointer" data-setting="purple"></button>
               </div>
             </div>
           </div>
