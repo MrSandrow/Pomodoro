@@ -134,8 +134,6 @@ body {
   &__path {
     fill: none;
     stroke: var(--color);
-    stroke-dasharray: 1560px;
-    stroke-dashoffset: -240px;
     stroke-linecap: round;
     stroke-width: 17.5px;
   }
@@ -161,6 +159,7 @@ body {
     letter-spacing: 1rem;
     margin: -0.25rem auto 0;
     padding-left: 1rem;
+    text-transform: uppercase;
   }
 }
 
