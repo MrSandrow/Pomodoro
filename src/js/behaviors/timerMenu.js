@@ -1,5 +1,6 @@
-import WarningModal from './warningModal';
 import timerState from '../state/timerState';
+import Timer from './timer';
+import WarningModal from './warningModal';
 
 const warningModalElement = document.querySelector('.warning');
 const warningModal = new WarningModal(warningModalElement);
@@ -33,6 +34,7 @@ export default class TimerMenu {
   switchTimer(activeButton) {
     this.switchLayout(activeButton);
     TimerMenu.switchState(activeButton);
+    Timer.initialize();
   }
 
   switchLayout(activeButton) {

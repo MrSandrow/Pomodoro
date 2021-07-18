@@ -2,78 +2,110 @@ import settingsState from '../state/settingsState';
 import timerState from '../state/timerState';
 
 export default class Timer {
-  constructor(domElement) {
-    this.domElement = domElement;
-    this.duration = null;
-    this.statusMessage = null;
-  }
-
-  initialize() {
+  static initialize(domElement = timerState.domElement) {
     const timerSettings = settingsState.timerDurations.currentSettingObject;
 
-    this.duration = `${timerSettings[timerState.currentMode]}:00`;
-    this.statusMessage = 'start';
+    timerState.domElement = domElement;
+    timerState.timerDurationMilliseconds = timerSettings[timerState.currentMode] * 60_000;
+    timerState.remainingTime = null;
     timerState.currentState = 'created';
+    timerState.statusMessage = 'start';
+    clearTimeout(timerState.refreshFunction);
 
-    this.render();
+    Timer.render();
   }
 
-  handler() {
-    this[timerState.currentState]();
+  static handler() {
+    Timer[timerState.currentState]();
   }
 
-  created() {
-    this.statusMessage = 'pause';
+  static created() {
+    const remainingTime = timerState.remainingTime || timerState.timerDurationMilliseconds;
+
+    timerState.timerEndDate = Date.now() + remainingTime;
     timerState.currentState = 'running';
+    timerState.statusMessage = 'pause';
 
-    const startDate = Date.now();
-    const endDate = Date.now() + 
-
-    console.log(startDate);
-
-    this.render();
+    // setTimeout is used here because the timer will not render the first second otherwise
+    setTimeout(Timer.refreshRemainingTime, 0);
   }
 
-  running() {
-    this.statusMessage = 'start';
+  static running() {
+    clearTimeout(timerState.refreshFunction);
+
+    timerState.remainingTime = Math.max(0, timerState.timerEndDate - Date.now());
     timerState.currentState = 'paused';
+    timerState.statusMessage = 'start';
 
-    this.render();
+    // Only status is rendered here, to prevent the time from changing when pausing the timer
+    Timer.renderStatus();
   }
 
-  paused() {
-    this.statusMessage = 'pause';
-    timerState.currentState = 'running';
-
-    this.render();
+  static paused() {
+    Timer.created();
   }
 
-  finished() {
-    this.statusMessage = 'restart';
+  static finished() {
+    Timer.initialize();
+    Timer.created();
   }
 
-  renderTime() {
-    const timeElement = this.domElement.querySelector('.timer__time');
-    timeElement.innerText = this.duration;
+  static refreshRemainingTime() {
+    timerState.remainingTime = Math.max(0, timerState.timerEndDate - Date.now());
+
+    if (timerState.remainingTime > 0) {
+      timerState.refreshFunction = setTimeout(Timer.refreshRemainingTime, 1000);
+      Timer.render();
+      return;
+    }
+
+    Timer.finishTimer();
   }
 
-  renderProgressBar() {
-    const progressBarElement = this.domElement.querySelector('.timer__path');
+  static finishTimer() {
+    timerState.currentState = 'finished';
+    timerState.statusMessage = 'restart';
+
+    Timer.render();
+  }
+
+  static render() {
+    Timer.renderStatus();
+    Timer.renderTime();
+    Timer.renderProgressBar();
+  }
+
+  static renderStatus() {
+    const statusElement = timerState.domElement.querySelector('.timer__status');
+    statusElement.innerText = timerState.statusMessage;
+  }
+
+  static renderTime() {
+    const timeElement = timerState.domElement.querySelector('.timer__time');
+    const countdownTime = timerState.remainingTime ?? timerState.timerDurationMilliseconds;
+
+    const timeToRender = new Date(countdownTime);
+    const hoursToRender = timeToRender.getHours();
+    const minutesToRender = timeToRender.getMinutes();
+    const secondsToRender = timeToRender.getSeconds();
+
+    const convertHoursToMinutes = (hoursToRender - 1) * 60 + minutesToRender;
+    const formattedMinutes = convertHoursToMinutes < 10 ? `0${convertHoursToMinutes}` : convertHoursToMinutes;
+    const formattedSeconds = secondsToRender < 10 ? `0${secondsToRender}` : secondsToRender;
+
+    timeElement.innerText = `${formattedMinutes}:${formattedSeconds}`;
+  }
+
+  static renderProgressBar() {
+    const progressBarElement = timerState.domElement.querySelector('.timer__path');
     const pathLength = progressBarElement.getTotalLength();
-    const timerProgress = 0 / this.duration;
 
+    const timerDuration = Math.floor(timerState.timerDurationMilliseconds / 1000);
+    const remainingTime = Math.floor(timerState.remainingTime / 1000);
+    const validatedRemainingTime = typeof timerState.remainingTime === 'number' ? remainingTime : timerDuration;
+
+    const timerProgress = (timerDuration - validatedRemainingTime) / timerDuration;
     progressBarElement.style.strokeDasharray = `${pathLength}px`;
     progressBarElement.style.strokeDashoffset = `${pathLength * timerProgress}px`;
-  }
-
-  renderStatus() {
-    const statusElement = this.domElement.querySelector('.timer__status');
-    statusElement.innerText = this.statusMessage;
-  }
-
-  render() {
-    this.renderTime();
-    this.renderProgressBar();
-    this.renderStatus();
   }
 }

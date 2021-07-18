@@ -1,4 +1,6 @@
 import settingsState from '../state/settingsState';
+import timerState from '../state/timerState';
+import Timer from './timer';
 
 export default class SettingsModal {
   constructor(domElement) {
@@ -42,7 +44,9 @@ export default class SettingsModal {
       settingsState[setting].applyNewSetting();
     });
 
-    // TODO : Reinitialize Timer
+    // Apply new duration to current timer if it is not running
+    if (timerState.currentState === ('created')) Timer.initialize();
+
     this.hideModal();
   }
 
@@ -51,16 +55,6 @@ export default class SettingsModal {
       const inputElement = event.target;
       inputElement.value = validationFunction(inputElement);
     };
-  }
-
-  disableFormInput(inputName) {
-    const inputToDisable = this.formElement[inputName];
-    inputToDisable.setAttribute('readonly', 'true');
-  }
-
-  enableFormInput(inputName) {
-    const inputToEnable = this.formElement[inputName];
-    inputToEnable.removeAttribute('readonly');
   }
 
   switchActiveButton(event) {
