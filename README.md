@@ -2,6 +2,8 @@
 
 ## Next Releases
 
+- Timers times are not rendered correctly (hoursToRender can be 0, 1, 15 or 17 depending on device)
+
 - Save the settings and the timer state in local storage
 - Add features from [Pomofocus](https://pomofocus.io/) (My app should feature several pages)
 - Add buttons to increase / decrease the timer duration (Settings)

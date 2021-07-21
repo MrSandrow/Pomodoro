@@ -144,17 +144,18 @@ body {
     display: grid;
     height: 86%;
     place-content: center;
+    text-align: center;
     width: 86%;
     z-index: 1;
   }
 
   &__time {
-    font-size: min(5.5rem, 100vh / 12);
+    font-size: calc(100vmin / 6);
     margin-top: 2rem;
   }
 
   &__status {
-    font-size: min(1.5rem, 100vh / 50);
+    font-size: calc(100vmin / 25);
     font-weight: 400;
     letter-spacing: 1rem;
     margin: -0.25rem auto 0;
@@ -188,10 +189,12 @@ body {
 
   &__container {
     max-width: 65vh;
+    padding-bottom: calc(4.25rem / 2);
     width: 87.5vw;
 
     &--small {
       max-width: 55vh;
+      padding-bottom: calc(4.25rem / 2);
       width: 87.5vw;
     }
   }
@@ -504,11 +507,31 @@ body {
       margin-right: 0;
     }
   }
+
+  .timer {
+    &__time {
+      font-size: 5.5rem;
+    }
+
+    &__status {
+      font-size: 1.5rem;
+    }
+  }
 }
 
 @media (min-width: 992px) {
   html {
     font-size: 16px;
+  }
+
+  .timer {
+    &__time {
+      font-size: calc(100vmin / 11);
+    }
+
+    &__status {
+      font-size: calc(100vmin / 45);
+    }
   }
 
   .logo__text {
@@ -559,17 +582,17 @@ body {
   }
 
   .timer {
-    max-height: min(50vw, 35rem);
-    max-width: min(50vw, 35rem);
+    max-height: 35rem;
+    max-width: 35rem;
     height: 85vh;
     width: 85vh;
 
     &__time {
-      font-size: min(5.75rem, 100vw / 13);
+      font-size: 5.5rem;
     }
 
     &__status {
-      font-size: min(1.5rem, 100vw / 50);
+      font-size: 1.5rem;
     }
   }
 
