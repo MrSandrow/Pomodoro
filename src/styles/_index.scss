@@ -149,12 +149,12 @@ body {
   }
 
   &__time {
-    font-size: 6.25rem;
+    font-size: min(5.5rem, 100vh / 12);
     margin-top: 2rem;
   }
 
   &__status {
-    font-size: 1.25rem;
+    font-size: min(1.5rem, 100vh / 50);
     font-weight: 400;
     letter-spacing: 1rem;
     margin: -0.25rem auto 0;
@@ -554,10 +554,18 @@ body {
   }
 
   .timer {
-    max-height: 50vw;
-    max-width: 50vw;
+    max-height: min(50vw, 35rem);
+    max-width: min(50vw, 35rem);
     height: 85vh;
     width: 85vh;
+
+    &__time {
+      font-size: min(5.75rem, 100vw / 13);
+    }
+
+    &__status {
+      font-size: min(1.5rem, 100vw / 50);
+    }
   }
 
   .switch {

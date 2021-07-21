@@ -17,7 +17,8 @@ export default class TimerMenu {
     // Do nothing if the user clicked elsewhere than on a menu button that is not already active
     if (!activeButton || isAlreadyActive) return;
 
-    const isTimerActive = timerState.currentState === ('running' || 'paused');
+    const timerActiveStates = ['running', 'paused'];
+    const isTimerActive = timerActiveStates.includes(timerState.currentState);
 
     if (isTimerActive) {
       const functionToRun = () => { this.switchTimer(activeButton); };
