@@ -87,13 +87,13 @@ export default class Timer {
     const timeToRender = new Date(countdownTime);
     const hoursToRender = timeToRender.getHours();
     const minutesToRender = timeToRender.getMinutes();
-    const secondsToRender = timeToRender.getSeconds();
+    // const secondsToRender = timeToRender.getSeconds();
 
     const convertHoursToMinutes = (hoursToRender - 1) * 60 + minutesToRender;
     const formattedMinutes = convertHoursToMinutes < 10 ? `0${convertHoursToMinutes}` : convertHoursToMinutes;
-    const formattedSeconds = secondsToRender < 10 ? `0${secondsToRender}` : secondsToRender;
+    // const formattedSeconds = secondsToRender < 10 ? `0${secondsToRender}` : secondsToRender;
 
-    timeElement.innerText = `${formattedMinutes}:${formattedSeconds}`;
+    timeElement.innerText = `${formattedMinutes}:${hoursToRender}`;
   }
 
   static renderProgressBar() {
