@@ -84,16 +84,14 @@ export default class Timer {
     const timeElement = timerState.domElement.querySelector('.timer__time');
     const countdownTime = timerState.remainingTime ?? timerState.timerDurationMilliseconds;
 
-    const timeToRender = new Date(countdownTime);
-    const hoursToRender = timeToRender.getHours();
-    const minutesToRender = timeToRender.getMinutes();
-    // const secondsToRender = timeToRender.getSeconds();
+    const timeToRenderInSeconds = Math.floor(countdownTime / 1000);
+    const minutesToRender = Math.floor(timeToRenderInSeconds / 60);
+    const secondsToRender = Math.floor(timeToRenderInSeconds % 60);
 
-    const convertHoursToMinutes = (hoursToRender - 1) * 60 + minutesToRender;
-    const formattedMinutes = convertHoursToMinutes < 10 ? `0${convertHoursToMinutes}` : convertHoursToMinutes;
-    // const formattedSeconds = secondsToRender < 10 ? `0${secondsToRender}` : secondsToRender;
+    const formattedMinutes = minutesToRender < 10 ? `0${minutesToRender}` : minutesToRender;
+    const formattedSeconds = secondsToRender < 10 ? `0${secondsToRender}` : secondsToRender;
 
-    timeElement.innerText = `${formattedMinutes}:${hoursToRender}`;
+    timeElement.innerText = `${formattedMinutes}:${formattedSeconds}`;
   }
 
   static renderProgressBar() {
