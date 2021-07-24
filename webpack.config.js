@@ -33,6 +33,11 @@ module.exports = {
         include: path.resolve('src', 'fonts'),
         type: 'asset/resource',
       },
+      {
+        test: /\.mp3$/,
+        include: path.resolve('src', 'audio'),
+        type: 'asset/resource',
+      },
     ],
   },
 

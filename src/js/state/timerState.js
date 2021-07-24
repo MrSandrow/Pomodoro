@@ -5,6 +5,7 @@ export default {
   currentState: null,
   statusMessage: null,
   timerEndDate: null,
-  remainingTime: null,
+  remainingTimeMilliseconds: null,
   refreshFunction: null,
+  progressBarAnimation: null,
 };

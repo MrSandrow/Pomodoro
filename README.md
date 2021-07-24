@@ -2,10 +2,11 @@
 
 ## Next Releases
 
+- Implement the countdown with GSAP
+- Add timeSpentWorking to localStorage (Sum of all time pomodoro timer has been running)
 - Save the settings and the timer state in local storage
-- Add features from [Pomofocus](https://pomofocus.io/) (My app should feature several pages)
+
 - Add buttons to increase / decrease the timer duration (Settings)
-- Reduce the height of the page to avoid scrolling on mobile devices
 
 ## Workflow
 
