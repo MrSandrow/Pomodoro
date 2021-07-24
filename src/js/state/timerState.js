@@ -8,4 +8,5 @@ export default {
   remainingTimeMilliseconds: null,
   refreshFunction: null,
   progressBarAnimation: null,
+  audioNotification: null,
 };

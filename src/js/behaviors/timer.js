@@ -12,6 +12,7 @@ export default class Timer {
     timerState.currentState = 'created';
     timerState.statusMessage = 'start';
     timerState.remainingTimeMilliseconds = null;
+    timerState.audioNotification = new Audio(audioNotification);
 
     // Kill the previous timer to avoid conflicts
     timerState.progressBarAnimation?.kill();
@@ -93,9 +94,7 @@ export default class Timer {
   static finishTimer() {
     timerState.currentState = 'finished';
     timerState.statusMessage = 'restart';
-
-    const notification = new Audio(audioNotification);
-    notification.play();
+    timerState.audioNotification.play();
 
     Timer.render();
   }
