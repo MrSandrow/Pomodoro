@@ -5,39 +5,76 @@ import timerState from '../state/timerState';
 
 export default class Timer {
   static initialize(domElement = timerState.domElement) {
-    const timerSettings = settingsState.timerDurations.currentSettingObject;
-    timerState.timerDurationMilliseconds = timerSettings[timerState.currentMode] * 60_000;
-
     timerState.domElement = domElement;
     timerState.currentState = 'created';
     timerState.statusMessage = 'start';
-    timerState.remainingTimeMilliseconds = null;
     timerState.audioNotification = new Audio(audioNotification);
 
-    // Kill the previous timer to avoid conflicts
-    timerState.progressBarAnimation?.kill();
-    clearTimeout(timerState.refreshFunction);
+    // Keep the animations synchronized with the timer duration when switching tabs
+    gsap.ticker.lagSmoothing(0);
 
-    Timer.animateProgressBar();
+    Timer.initializeTimer();
+    Timer.initializeProgressBar();
+
     Timer.render();
   }
 
-  static animateProgressBar() {
+  static initializeTimer() {
+    // Kill the previous timer to avoid conflicts
+    timerState.timerFunction?.kill();
+
+    const timerSettings = settingsState.timerDurations.currentSettingObject;
+    timerState.timerDurationSeconds = timerSettings[timerState.currentMode] * 60;
+    timerState.remainingTimeSeconds = timerState.timerDurationSeconds;
+
+    timerState.timerFunction = gsap.to(timerState, {
+      duration: timerState.timerDurationSeconds,
+      remainingTimeSeconds: 0,
+      ease: 'linear',
+      paused: true,
+      onUpdate: Timer.render,
+      onInterrupt: Timer.saveWorkedTime,
+      onComplete: Timer.finishTimer,
+    });
+  }
+
+  static initializeProgressBar() {
+    // Kill the previous timer to avoid conflicts
+    timerState.progressBarAnimation?.kill();
+
     const progressBarElement = timerState.domElement.querySelector('.timer__path');
     const pathLength = progressBarElement.getTotalLength();
 
     progressBarElement.style.strokeDasharray = `${pathLength}px`;
     progressBarElement.style.strokeDashoffset = '0px';
 
-    // Keep the animation synchronized with the timer duration when switching tabs
-    gsap.ticker.lagSmoothing(0);
-
     timerState.progressBarAnimation = gsap.to(progressBarElement, {
-      duration: timerState.timerDurationMilliseconds / 1000,
-      ease: 'linear',
+      duration: timerState.timerDurationSeconds,
       strokeDashoffset: pathLength,
+      ease: 'linear',
       paused: true,
     });
+  }
+
+  static finishTimer() {
+    timerState.currentState = 'finished';
+    timerState.statusMessage = 'restart';
+
+    timerState.audioNotification.play();
+
+    Timer.saveWorkedTime();
+    Timer.render();
+  }
+
+  static saveWorkedTime() {
+    const isWorkedTime = timerState.currentMode === 'pomodoro';
+    if (!isWorkedTime) return;
+
+    const previousWorkedTime = localStorage.getItem('secondsSpentWorking') || 0;
+    const newWorkedTime = timerState.timerDurationSeconds * timerState.timerFunction.progress();
+    const totalWorkedTime = Number(previousWorkedTime) + Math.floor(newWorkedTime);
+
+    localStorage.setItem('secondsSpentWorking', totalWorkedTime);
   }
 
   static handler() {
@@ -45,29 +82,21 @@ export default class Timer {
   }
 
   static created() {
-    const { remainingTimeMilliseconds, timerDurationMilliseconds } = timerState;
-    const remainingTime = remainingTimeMilliseconds || timerDurationMilliseconds;
-
-    timerState.timerEndDate = Date.now() + remainingTime;
-    timerState.progressBarAnimation.play();
     timerState.currentState = 'running';
     timerState.statusMessage = 'pause';
 
-    // setTimeout is used here because the timer will not render the first second otherwise
-    setTimeout(Timer.refreshRemainingTime, 0);
+    timerState.timerFunction.play();
+    timerState.progressBarAnimation.play();
   }
 
   static running() {
-    clearTimeout(timerState.refreshFunction);
-
-    timerState.remainingTimeMilliseconds = Math.max(0, timerState.timerEndDate - Date.now());
-    timerState.progressBarAnimation.pause();
     timerState.currentState = 'paused';
     timerState.statusMessage = 'start';
 
-    // Timer time is not rendered here, to prevent the time from changing when pausing the timer
-    Timer.renderStatus();
-    Timer.renderTitle();
+    timerState.timerFunction.pause();
+    timerState.progressBarAnimation.pause();
+
+    Timer.render();
   }
 
   static paused() {
@@ -77,26 +106,6 @@ export default class Timer {
   static finished() {
     Timer.initialize();
     Timer.created();
-  }
-
-  static refreshRemainingTime() {
-    timerState.remainingTimeMilliseconds = Math.max(0, timerState.timerEndDate - Date.now());
-
-    if (timerState.remainingTimeMilliseconds > 0) {
-      timerState.refreshFunction = setTimeout(Timer.refreshRemainingTime, 1000);
-      Timer.render();
-      return;
-    }
-
-    Timer.finishTimer();
-  }
-
-  static finishTimer() {
-    timerState.currentState = 'finished';
-    timerState.statusMessage = 'restart';
-    timerState.audioNotification.play();
-
-    Timer.render();
   }
 
   static render() {
@@ -113,9 +122,9 @@ export default class Timer {
       return;
     }
 
-    const remainingMinutes = Math.floor(timerState.remainingTimeMilliseconds / 60_000);
+    const remainingMinutes = Math.floor(timerState.remainingTimeSeconds / 60);
     const firstCharacter = timerState.currentMode[0].toUpperCase();
-    const nextCharacters = timerState.currentMode.replace(/([A-Z])/g, ' $1').slice(1);
+    const nextCharacters = timerState.currentMode.replace(/([A-Z])/, ' $1').slice(1);
     const capitalizedTimerMode = firstCharacter + nextCharacters;
 
     document.title = `${remainingMinutes}m - ${capitalizedTimerMode}`;
@@ -129,12 +138,8 @@ export default class Timer {
   static renderTime() {
     const timeElement = timerState.domElement.querySelector('.timer__time');
 
-    const { remainingTimeMilliseconds, timerDurationMilliseconds } = timerState;
-    const countdownTime = remainingTimeMilliseconds ?? timerDurationMilliseconds;
-
-    const timeToRenderInSeconds = Math.floor(countdownTime / 1000);
-    const minutesToRender = Math.floor(timeToRenderInSeconds / 60);
-    const secondsToRender = Math.floor(timeToRenderInSeconds % 60);
+    const minutesToRender = Math.floor(timerState.remainingTimeSeconds / 60);
+    const secondsToRender = Math.floor(timerState.remainingTimeSeconds % 60);
 
     const formattedMinutes = minutesToRender < 10 ? `0${minutesToRender}` : minutesToRender;
     const formattedSeconds = secondsToRender < 10 ? `0${secondsToRender}` : secondsToRender;

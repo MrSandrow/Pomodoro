@@ -2,11 +2,7 @@
 
 ## Next Releases
 
-- Implement the countdown with GSAP
-- Add timeSpentWorking to localStorage (Sum of all time pomodoro timer has been running)
 - Save the settings and the timer state in local storage
-
-- Add buttons to increase / decrease the timer duration (Settings)
 
 ## Workflow
 

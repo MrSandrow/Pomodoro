@@ -1,12 +1,15 @@
 export default {
-  currentMode: 'pomodoro',
   domElement: null,
-  timerDurationMilliseconds: null,
+
+  currentMode: 'pomodoro',
   currentState: null,
   statusMessage: null,
-  timerEndDate: null,
-  remainingTimeMilliseconds: null,
-  refreshFunction: null,
-  progressBarAnimation: null,
+
   audioNotification: null,
+
+  timerDurationSeconds: null,
+  remainingTimeSeconds: null,
+
+  timerFunction: null,
+  progressBarAnimation: null,
 };

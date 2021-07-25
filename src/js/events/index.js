@@ -20,6 +20,7 @@ Timer.initialize(timerElement);
 settingsModal.initialize();
 
 // 'this' is bound on event listeners to avoid losing it
+window.addEventListener('unload', Timer.saveWorkedTime);
 timerElement.addEventListener('click', Timer.handler);
 timerMenuElement.addEventListener('click', timerMenu.handleSwitch.bind(timerMenu));
 firstSettingsButton.addEventListener('click', settingsModal.displayModal.bind(settingsModal));
