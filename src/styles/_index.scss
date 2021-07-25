@@ -96,7 +96,7 @@ body {
   }
 
   &__text {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 700;
   }
 }
@@ -151,12 +151,12 @@ body {
   }
 
   &__time {
-    font-size: calc(100vmin / 6);
+    font-size: calc(100vmin / 7);
     margin-top: 2rem;
   }
 
   &__status {
-    font-size: calc(100vmin / 25);
+    font-size: calc(100vmin / 27.5);
     font-weight: 400;
     letter-spacing: 1rem;
     margin: -0.25rem auto 0;
