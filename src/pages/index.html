@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-font="poppins" data-color="red">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -18,17 +18,17 @@
       <div class="menu">
         <div class="menu__options">
           <div class="menu__button active pointer" data-setting="pomodoro">
-            <span class="menu__text">pomodoro</span>
+            <span class="menu__text hidden">pomodoro</span>
           </div>
           <div class="menu__button pointer" data-setting="shortBreak">
-            <span class="menu__text">short break</span>
+            <span class="menu__text hidden">short break</span>
           </div>
           <div class="menu__button pointer" data-setting="longBreak">
-            <span class="menu__text">long break</span>
+            <span class="menu__text hidden">long break</span>
           </div>
         </div>
         <div class="menu__button--switch pointer">
-          <span class="menu__text">settings</span>
+          <span class="menu__text hidden">settings</span>
         </div>
       </div>
       <div class="timer">
@@ -57,11 +57,11 @@
             <span class="modal__subtitle--dark">TIME (MINUTES)</span>
             <form class="modal__timers">
               <label for="pomodoro">pomodoro</label>
-              <input type="number" name="pomodoro" value="25">
+              <input type="number" name="pomodoro">
               <label for="shortbreak">short break</label>
-              <input type="number" name="shortBreak" value="5">
+              <input type="number" name="shortBreak">
               <label for="longbreak">long break</label>
-              <input type="number" name="longBreak" value="15">
+              <input type="number" name="longBreak">
             </form>
           </div>
           <hr class="modal__separator">
@@ -69,7 +69,7 @@
             <div class="modal__menu">
               <span class="modal__subtitle--dark">FONT</span>
               <div class="modal__fonts">
-                <button class="modal__button--poppins pointer active" data-setting="poppins">Aa</button>
+                <button class="modal__button--poppins pointer" data-setting="poppins">Aa</button>
                 <button class="modal__button--museo pointer" data-setting="museo">Aa</button>
                 <button class="modal__button--merriweather pointer" data-setting="merriweather">Aa</button>
               </div>
@@ -78,7 +78,7 @@
             <div class="modal__menu">
               <span class="modal__subtitle--dark">COLOR</span>
               <div class="modal__colors">
-                <button class="modal__button--red pointer active" data-setting="red"></button>
+                <button class="modal__button--red pointer" data-setting="red"></button>
                 <button class="modal__button--blue pointer" data-setting="blue"></button>
                 <button class="modal__button--purple pointer" data-setting="purple"></button>
               </div>

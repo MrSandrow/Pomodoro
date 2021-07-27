@@ -17,6 +17,7 @@ const timerMenu = new TimerMenu(timerMenuElement);
 const settingsModal = new SettingsModal(settingsModalElement);
 
 Timer.initialize(timerElement);
+TimerMenu.initialize();
 settingsModal.initialize();
 
 // 'this' is bound on event listeners to avoid losing it

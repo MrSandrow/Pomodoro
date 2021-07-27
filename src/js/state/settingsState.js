@@ -4,9 +4,9 @@ export default {
     domElement: document.querySelector('.modal__timers'),
 
     currentSettingObject: {
-      pomodoro: 25,
-      shortBreak: 5,
-      longBreak: 15,
+      pomodoro: () => localStorage.getItem('pomodoroDuration') || 25,
+      shortBreak: () => localStorage.getItem('shortBreakDuration') || 5,
+      longBreak: () => localStorage.getItem('longBreakDuration') || 15,
     },
 
     previousValue: {
@@ -20,7 +20,8 @@ export default {
       const formInputs = Array.from(this.domElement.elements);
 
       formInputs.forEach((inputElement) => {
-        inputElement.value = this.currentSettingObject[inputElement.name]; // eslint-disable-line no-param-reassign, max-len
+        // eslint-disable-next-line no-param-reassign
+        inputElement.value = this.currentSettingObject[inputElement.name]();
       });
     },
 
@@ -29,13 +30,13 @@ export default {
       const formInputs = Array.from(this.domElement.elements);
 
       formInputs.forEach((inputElement) => {
-        this.currentSettingObject[inputElement.name] = inputElement.value;
+        localStorage.setItem(`${inputElement.name}Duration`, inputElement.value);
       });
     },
 
     validationFunction(inputElement) {
       const inputName = inputElement.name;
-      const previousValue = this.previousValue[inputName] || this.currentSettingObject[inputName];
+      const previousValue = this.previousValue[inputName] || this.currentSettingObject[inputName]();
       const valueToCheck = inputElement.value;
 
       const convertToInteger = parseInt(valueToCheck, 10);
@@ -52,7 +53,7 @@ export default {
     domElement: document.querySelector('.modal__fonts'),
 
     currentSettingObject: {
-      value: 'poppins',
+      value: () => localStorage.getItem('font') || 'poppins',
     },
 
     restoreCurrentSetting() {
@@ -60,7 +61,7 @@ export default {
       const fontButtons = Array.from(this.domElement.children);
       fontButtons.forEach((button) => { button.classList.remove('active'); });
 
-      const currentSetting = this.currentSettingObject.value;
+      const currentSetting = this.currentSettingObject.value();
       const previouslyActiveButton = this.domElement.querySelector(`[data-setting=${currentSetting}]`);
       previouslyActiveButton.classList.add('active');
     },
@@ -69,7 +70,7 @@ export default {
       const activeButton = this.domElement.querySelector('.active');
       const newSettingValue = activeButton.dataset.setting;
 
-      this.currentSettingObject.value = newSettingValue;
+      localStorage.setItem('font', newSettingValue);
       document.documentElement.dataset.font = newSettingValue;
     },
   },
@@ -78,7 +79,7 @@ export default {
     domElement: document.querySelector('.modal__colors'),
 
     currentSettingObject: {
-      value: 'red',
+      value: () => localStorage.getItem('color') || 'red',
     },
 
     restoreCurrentSetting() {
@@ -86,7 +87,7 @@ export default {
       const colorButtons = Array.from(this.domElement.children);
       colorButtons.forEach((button) => { button.classList.remove('active'); });
 
-      const currentSetting = this.currentSettingObject.value;
+      const currentSetting = this.currentSettingObject.value();
       const previouslyActiveButton = this.domElement.querySelector(`[data-setting=${currentSetting}]`);
       previouslyActiveButton.classList.add('active');
     },
@@ -95,7 +96,7 @@ export default {
       const activeButton = this.domElement.querySelector('.active');
       const newSettingValue = activeButton.dataset.setting;
 
-      this.currentSettingObject.value = newSettingValue;
+      localStorage.setItem('color', newSettingValue);
       document.documentElement.dataset.color = newSettingValue;
     },
   },

@@ -11,5 +11,6 @@ export default {
   remainingTimeSeconds: null,
 
   timerFunction: null,
+  finishFunction: null,
   progressBarAnimation: null,
 };

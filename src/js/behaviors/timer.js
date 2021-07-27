@@ -22,9 +22,10 @@ export default class Timer {
   static initializeTimer() {
     // Kill the previous timer to avoid conflicts
     timerState.timerFunction?.kill();
+    clearTimeout(timerState.finishFunction);
 
     const timerSettings = settingsState.timerDurations.currentSettingObject;
-    timerState.timerDurationSeconds = timerSettings[timerState.currentMode] * 60;
+    timerState.timerDurationSeconds = timerSettings[timerState.currentMode]() * 60;
     timerState.remainingTimeSeconds = timerState.timerDurationSeconds;
 
     timerState.timerFunction = gsap.to(timerState, {
@@ -33,8 +34,6 @@ export default class Timer {
       ease: 'linear',
       paused: true,
       onUpdate: Timer.render,
-      onInterrupt: Timer.saveWorkedTime,
-      onComplete: Timer.finishTimer,
     });
   }
 
@@ -57,18 +56,20 @@ export default class Timer {
   }
 
   static finishTimer() {
+    Timer.saveWorkedTime();
+
     timerState.currentState = 'finished';
     timerState.statusMessage = 'restart';
-
     timerState.audioNotification.play();
 
-    Timer.saveWorkedTime();
     Timer.render();
   }
 
   static saveWorkedTime() {
     const isWorkedTime = timerState.currentMode === 'pomodoro';
-    if (!isWorkedTime) return;
+    const isTimerFinished = timerState.currentState === 'finished';
+
+    if (!isWorkedTime || isTimerFinished) return;
 
     const previousWorkedTime = localStorage.getItem('secondsSpentWorking') || 0;
     const newWorkedTime = timerState.timerDurationSeconds * timerState.timerFunction.progress();
@@ -82,6 +83,9 @@ export default class Timer {
   }
 
   static created() {
+    const remainingTime = timerState.remainingTimeSeconds * 1000;
+    timerState.finishFunction = setTimeout(Timer.finishTimer, remainingTime);
+
     timerState.currentState = 'running';
     timerState.statusMessage = 'pause';
 
@@ -90,6 +94,8 @@ export default class Timer {
   }
 
   static running() {
+    clearTimeout(timerState.finishFunction);
+
     timerState.currentState = 'paused';
     timerState.statusMessage = 'start';
 

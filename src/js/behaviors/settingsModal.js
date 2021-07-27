@@ -9,6 +9,11 @@ export default class SettingsModal {
   }
 
   initialize() {
+    this.addEventListeners();
+    this.renderSettings();
+  }
+
+  addEventListeners() {
     const cancelButton = this.domElement.querySelector('.modal__control--cancel');
     const applyButton = this.domElement.querySelector('.modal__control--apply');
 
@@ -21,6 +26,38 @@ export default class SettingsModal {
     const validateFormInput = SettingsModal.validateFormInput(boundValidateTimerDuration);
 
     this.formElement.addEventListener('focusout', validateFormInput);
+  }
+
+  renderSettings() {
+    this.renderTimerDurations();
+    this.renderFontSetting();
+    this.renderColorSetting();
+  }
+
+  renderTimerDurations() {
+    const timerDurations = settingsState.timerDurations.currentSettingObject;
+    const formInputs = Array.from(this.formElement.elements);
+
+    formInputs.forEach((inputElement) => {
+      // eslint-disable-next-line no-param-reassign
+      inputElement.value = timerDurations[inputElement.name]();
+    });
+  }
+
+  renderFontSetting() {
+    const fontSetting = settingsState.font.currentSettingObject.value();
+    const fontButton = this.domElement.querySelector(`[data-setting=${fontSetting}]`);
+
+    fontButton.classList.add('active');
+    document.documentElement.dataset.font = fontSetting;
+  }
+
+  renderColorSetting() {
+    const colorSetting = settingsState.color.currentSettingObject.value();
+    const colorButton = this.domElement.querySelector(`[data-setting=${colorSetting}]`);
+
+    colorButton.classList.add('active');
+    document.documentElement.dataset.color = colorSetting;
   }
 
   displayModal() {

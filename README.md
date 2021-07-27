@@ -1,12 +1,11 @@
 # [Simple Pomodoro Timer](https://tymer.netlify.app/)
 
-## Next Releases
+I created this app to learn :
 
-- Save the settings and the timer state in local storage
+- npm
+- Webpack
+- Babel
+- ESLint
+- Jest
 
-## Workflow
-
-- Commit as often as possible
-- Squash and Push my commits when a feature is complete
-- Review the app using a Branch Deploy
-- Merge dev branch on main
+It also helped me understanding why it is preferable to use React instead of Vanilla JS.

@@ -15,11 +15,12 @@ test('Return the closest value between 0 and 91 if valueToCheck is out of this r
 
 test('Return previousValue when valueToCheck is not a number', () => {
   const previousValueProperty = settingsState.timerDurations.previousValue.pomodoro;
-  const defaultValueProperty = settingsState.timerDurations.currentSettingObject.pomodoro;
+  const defaultValueProperty = settingsState.timerDurations.currentSettingObject.pomodoro();
   const previousValue = previousValueProperty || defaultValueProperty;
 
   expect(settingsState.timerDurations.validationFunction({ name: 'pomodoro', value: ',' })).toEqual(previousValue);
   expect(settingsState.timerDurations.validationFunction({ name: 'pomodoro', value: '-' })).toEqual(previousValue);
+  expect(settingsState.timerDurations.validationFunction({ name: 'pomodoro', value: '' })).toEqual(previousValue);
 });
 
 test('Return valueToCheck when it is an integer between 0 and 91', () => {
