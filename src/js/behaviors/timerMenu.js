@@ -10,12 +10,6 @@ export default class TimerMenu {
     this.domElement = domElement;
   }
 
-  static initialize() {
-    // Display the text after the font has been applied to avoid a flash of unstyled content
-    const menuTitles = document.querySelectorAll('.menu__text');
-    menuTitles.forEach((title) => { title.classList.remove('hidden'); });
-  }
-
   handleSwitch(event) {
     const activeButton = event.target.closest('.menu__button');
     const isAlreadyActive = activeButton?.classList.contains('active');

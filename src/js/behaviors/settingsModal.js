@@ -60,6 +60,11 @@ export default class SettingsModal {
     document.documentElement.dataset.color = colorSetting;
   }
 
+  static renderTextElements() {
+    const textElements = document.querySelectorAll('.text-element');
+    textElements.forEach((textElement) => { textElement.classList.remove('hidden'); });
+  }
+
   displayModal() {
     this.domElement.classList.remove('hidden');
   }

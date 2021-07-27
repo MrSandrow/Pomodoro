@@ -17,10 +17,10 @@ const timerMenu = new TimerMenu(timerMenuElement);
 const settingsModal = new SettingsModal(settingsModalElement);
 
 Timer.initialize(timerElement);
-TimerMenu.initialize();
 settingsModal.initialize();
 
 // 'this' is bound on event listeners to avoid losing it
+window.addEventListener('load', SettingsModal.renderTextElements);
 window.addEventListener('unload', Timer.saveWorkedTime);
 timerElement.addEventListener('click', Timer.handler);
 timerMenuElement.addEventListener('click', timerMenu.handleSwitch.bind(timerMenu));
