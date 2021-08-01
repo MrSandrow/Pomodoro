@@ -8,4 +8,4 @@ I created this app to learn :
 - ESLint
 - Jest
 
-It also helped me understanding why it is preferable to use React instead of Vanilla JS.
+It also helped me understanding the main struggles you encounter when building an app with Vanilla JS instead of React.
