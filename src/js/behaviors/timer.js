@@ -56,6 +56,10 @@ export default class Timer {
   }
 
   static finishTimer() {
+    // timerFunction.progress() does not update by itself when the user is not on the page
+    // It is updated here to avoid a potential bug in Timer.saveWorkedTime()
+    timerState.timerFunction.progress(1);
+
     Timer.saveWorkedTime();
 
     timerState.currentState = 'finished';
